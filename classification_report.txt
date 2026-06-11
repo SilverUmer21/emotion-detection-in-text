@@ -1,0 +1,37 @@
+GoEmotions - DeBERTa Model Classification Report
+============================================================
+                precision    recall  f1-score   support
+
+    admiration       0.63      0.79      0.70       504
+     amusement       0.77      0.90      0.83       264
+         anger       0.34      0.69      0.45       198
+     annoyance       0.30      0.51      0.38       320
+      approval       0.43      0.45      0.44       351
+        caring       0.30      0.67      0.41       135
+     confusion       0.27      0.78      0.40       153
+     curiosity       0.41      0.82      0.54       284
+        desire       0.52      0.55      0.54        83
+disappointment       0.33      0.35      0.34       151
+   disapproval       0.40      0.46      0.43       267
+       disgust       0.47      0.56      0.51       123
+ embarrassment       0.32      0.54      0.40        37
+    excitement       0.26      0.64      0.37       103
+          fear       0.35      0.88      0.50        78
+     gratitude       0.84      0.95      0.89       352
+         grief       0.15      0.83      0.25         6
+           joy       0.37      0.76      0.49       161
+          love       0.61      0.95      0.74       238
+   nervousness       0.10      0.70      0.17        23
+      optimism       0.56      0.59      0.58       186
+         pride       0.53      0.50      0.52        16
+   realization       0.20      0.28      0.24       145
+        relief       0.23      0.64      0.33        11
+       remorse       0.49      0.93      0.64        56
+       sadness       0.39      0.78      0.52       156
+      surprise       0.41      0.68      0.51       141
+       neutral       0.69      0.65      0.67      1787
+
+     micro avg       0.48      0.68      0.56      6329
+     macro avg       0.42      0.67      0.49      6329
+  weighted avg       0.53      0.68      0.58      6329
+   samples avg       0.55      0.69      0.59      6329
