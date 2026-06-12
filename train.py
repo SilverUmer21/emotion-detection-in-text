@@ -1,4 +1,3 @@
-# file: train.py
 import os
 import torch
 import torch.nn as nn
@@ -15,18 +14,17 @@ from tqdm import tqdm
 DEVICE     = "cuda" if torch.cuda.is_available() else "cpu"
 BATCH_SIZE = 8       # Number of sentences processed at once
 GRAD_ACCUM = 4       # Wait for 4 batches before updating weights (simulates BATCH_SIZE=32)
-EPOCHS     = 4       # Number of times the AI sees the entire dataset
-LR         = 1e-5    # Learning rate (how fast the AI learns; lower is more stable)
-SAVE_PATH  = "emotion_model_deberta.pt" # Where to save the AI's brain
+EPOCHS     = 4      
+LR         = 1e-5    # Learning rate
+SAVE_PATH  = "emotion_model_deberta.pt" 
 
 print(f"Using device: {DEVICE}")
 if DEVICE == "cuda":
     print(f"GPU: {torch.cuda.get_device_name(0)}")
     print(f"VRAM: {torch.cuda.get_device_properties(0).total_memory / 1e9:.1f} GB")
 
-
 # =============================================================================
-# 2. AI MODEL ARCHITECTURE (The "Brain")
+# 2. AI MODEL ARCHITECTURE
 # =============================================================================
 # this is the actual neural network architecture for emotion detection
 # it loads a pretrained deberta-v3-base model as the backbone, adds dropout to reduce overfitting,
@@ -48,7 +46,7 @@ class EmotionModel(nn.Module):
 
     # runs a forward pass through the model. takes tokenized input, passes it through deberta,
     # grabs the [CLS] token output (first token), applies dropout, then runs it through
-    # the classifier to get 28 raw scores (logits) — one for each emotion
+    # the classifier to get 28 raw scores (logits) one for each emotion
     def forward(self, input_ids, attention_mask):
         outputs = self.bert(input_ids=input_ids, attention_mask=attention_mask)
         # DeBERTa-v3 uses a different pooling but [CLS] is still at position 0
@@ -64,7 +62,7 @@ class EmotionModel(nn.Module):
 model = EmotionModel().to(DEVICE)
 
 # --- NEW: Resume Training Logic ---
-# If a previous save file exists, load it so we don't start from zero!
+# If a previous save file exists, load it so we don't start from zero
 if os.path.exists(SAVE_PATH):
     print(f"\n🔄 Found existing weights at '{SAVE_PATH}'!")
     print("Resuming training from this checkpoint...")
