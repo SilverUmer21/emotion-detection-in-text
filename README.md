@@ -6,7 +6,7 @@ Multi-label emotion detection across **28 emotion classes** using **DeBERTa-v3-b
 
 ## What This Does
 
-Given any piece of text, the model predicts which emotions are present — and multiple emotions can be active at the same time.
+Given any piece of text, the model predicts which emotions are present and multiple emotions can be active at the same time.
 
 ```
 Input:  "I can't believe she actually did it, I'm so proud"
