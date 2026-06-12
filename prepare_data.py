@@ -1,4 +1,3 @@
-# file: prepare_data.py
 import torch
 from torch.utils.data import Dataset
 from transformers import AutoTokenizer
@@ -87,7 +86,7 @@ if __name__ == "__main__":
     print(f"  Validation: {len(val_dataset)}")
     print(f"  Test:       {len(test_dataset)}")
 
-    # Quick sanity check — take the first row and verify shapes
+    # Quick sanity check ,  take the first row and verify shapes
     print("\n--- Sanity Check ---")
     sample = train_dataset[0]
     print(f"Original Text: '{dataset['train'][0]['text']}'")
