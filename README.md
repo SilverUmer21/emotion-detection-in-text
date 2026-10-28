@@ -1,6 +1,10 @@
 # Emotion Detection in Text
 
+<p align="center"><img src="launch/media/subtext-vs.gif" width="360" alt="SUBTEXT, a pixel-art office PC, beats BERT-base on macro F1 in a fighting-game VS screen"></p>
+
 Multi-label emotion detection across **28 emotion classes** using **DeBERTa-v3-base**, trained on the GoEmotions dataset. Built as a semester project for the Artificial Intelligence course at **FAST University, Semester 6**.
+
+Its launch persona is **SUBTEXT**, a beige office PC that reads the emotion behind any message. It is good at gratitude, bad at nervousness, and sarcasm still fools it.
 
 ---
 
@@ -19,7 +23,7 @@ The model handles all 28 GoEmotions classes: admiration, amusement, anger, annoy
 
 ## Results
 
-Evaluated on the GoEmotions test set (6,329 samples):
+Evaluated on the GoEmotions test set (5,427 comments carrying 6,329 emotion labels):
 
 | Metric | Score |
 |---|---|
@@ -27,6 +31,8 @@ Evaluated on the GoEmotions test set (6,329 samples):
 | Macro F1 | 0.49 |
 | Weighted F1 | 0.58 |
 | Samples F1 | 0.59 |
+
+For reference, the original GoEmotions paper (Demszky et al., 2020) reports an average (macro) F1 of 0.46 for fine-tuned BERT-base on the same 28 labels.
 
 **Best performing emotions:**
 
@@ -112,6 +118,28 @@ python chat_with_model.py
 
 ---
 
+## Launch Video
+
+`launch/` renders a 45-second pixel-art launch video (1080×1350) and its cover images entirely from code: a canvas scene drawn frame by frame in Playwright, and a soundtrack synthesised with numpy from the same event log, so every sound lands on its frame. The predictions shown on screen are read from `launch/scores.js`.
+
+```bash
+# 1. score the video's lines with the trained model (writes launch/scores.js)
+python launch/predict_lines.py --weights emotion_model_deberta.pt
+
+# 2. render frames, soundtrack and the final MP4
+node launch/render.cjs frames launch/out
+python launch/soundtrack.py launch/out/events.json launch/out/soundtrack.wav
+ffmpeg -framerate 30 -i launch/out/f%04d.jpg -i launch/out/soundtrack.wav -c:v libx264 -pix_fmt yuv420p -crf 18 \
+  -c:a aac -b:a 192k -af loudnorm=I=-14:TP=-1 -shortest launch/out/subtext-launch.mp4
+
+# covers: video thumbnail, LinkedIn banner, GitHub social preview, LinkedIn Featured card
+node launch/render.cjs covers launch/out
+```
+
+Open `launch/scene.html?play` through any local web server to watch the edit loop in a browser.
+
+---
+
 ## Project Structure
 
 ```
@@ -122,8 +150,16 @@ emotion-detection-in-text/
 ├── chat_with_model.py       # Inference — takes text input, returns emotions
 ├── requirements.txt         # Python dependencies
 │
-└── results/
-    └── classification_report.txt   # Full per-class evaluation on test set
+├── results/
+│   └── classification_report.txt   # Full per-class evaluation on test set
+│
+└── launch/                  # SUBTEXT launch video and covers, rendered from code
+    ├── predict_lines.py     # Scores the video's lines (lines.json) into scores.js
+    ├── video.js             # The 45 s edit: render(t) plus the sound-cue log
+    ├── pixel.js, pixel-scenes.js   # Pixel-art toolkit and scene pieces
+    ├── covers.js            # Thumbnail, banner, social preview, Featured card
+    ├── render.cjs           # Playwright renderer
+    └── soundtrack.py        # Music and SFX synthesised from the event log
 ```
 
 ---
