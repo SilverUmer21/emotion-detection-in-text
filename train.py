@@ -14,7 +14,7 @@ from tqdm import tqdm
 DEVICE     = "cuda" if torch.cuda.is_available() else "cpu"
 BATCH_SIZE = 8       # Number of sentences processed at once
 GRAD_ACCUM = 4       # Wait for 4 batches before updating weights (simulates BATCH_SIZE=32)
-EPOCHS     = 4      
+EPOCHS     = 5      
 LR         = 1e-5    # Learning rate
 SAVE_PATH  = "emotion_model_deberta.pt" 
 
